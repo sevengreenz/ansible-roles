@@ -1,0 +1,21 @@
+- hosts: simple
+  become: yes
+  tasks:
+    #    - name: upgrade all packeages 
+    #      yum:
+    #        name: '*'
+    #        state: latest
+    # 最新のgitをインストールするため
+    - name: install IUS repository
+      yum:
+        # https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/
+        # を見て新しいものがリリースされていないか確認
+        name: https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-15.ius.centos7.noarch.rpm 
+    - name: install git
+      yum:
+        name: git2u 
+        enablerepo: ius
+        state: present
+    - shell: git --version
+      register: result
+    - debug: var=result
