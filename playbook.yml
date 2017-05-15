@@ -21,4 +21,43 @@
         state: present
     - shell: git --version
       register: result
-    - debug: var=result
+      changed_when: False
+    - debug: var=result.stdout
+
+
+    - name: is vim installed 
+      shell: /usr/local/bin/vim --version
+      register: is_vim_installed
+      ignore_errors: True
+      changed_when: False
+
+    # vimの依存パッケージインストール
+    - name: install dependency packeges
+      yum:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - lua-devel
+        - ncurses-devel
+
+    - name: download vim
+      git:
+        repo: 'https://github.com/vim/vim.git'
+        dest: /usr/src/vim
+
+    - name: install vim
+      # --prefix: インストール先
+      shell: "{{ item }}"
+      args:
+        chdir: /usr/src/vim
+      with_items:
+        - make distclean
+        - ./configure --prefix=/usr/local --enable-multibyte --with-features=huge --disable-selinux --enable-pythoninterp=yes --enable-luainterp=yes 
+        - make
+        - make install
+      when: is_vim_installed|failed
+    - shell: /usr/local/bin/vim --version
+      register: vim_version
+      changed_when: False
+    - debug: var=vim_version.stdout_lines[0]
+
