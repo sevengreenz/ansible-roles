@@ -1,63 +1,8 @@
 - hosts: simple
   become: yes
-  tasks:
-    #    - name: upgrade all packeages 
-    #      yum:
-    #        name: '*'
-    #        state: latest
-    # 最新のgitをインストールするため
-    - name: add IUS repository
-      yum_repository:
-        name: ius
-        description: IUS YUM repo for install the latest git 
-        baseurl: https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64
-        # https://access.redhat.com/documentation/ja-JP/Red_Hat_Enterprise_Linux/6/html/Security_Guide/sect-Security_Guide-Updating_Packages-Verifying_Signed_Packages.html
-        gpgkey: https://dl.iuscommunity.org/pub/ius/IUS-COMMUNITY-GPG-KEY
-        gpgcheck: yes
-    - name: install git
-      yum:
-        name: git2u 
-        enablerepo: ius
-        state: present
-    - shell: git --version
-      register: result
-      changed_when: False
-    - debug: var=result.stdout
+  roles:
+    - git
+    - vim
 
 
-    - name: is vim installed 
-      shell: /usr/local/bin/vim --version
-      register: is_vim_installed
-      ignore_errors: True
-      changed_when: False
-
-    # vimの依存パッケージインストール
-    - name: install dependency packeges
-      yum:
-        name: "{{ item }}"
-        state: latest
-      with_items:
-        - lua-devel
-        - ncurses-devel
-
-    - name: download vim
-      git:
-        repo: 'https://github.com/vim/vim.git'
-        dest: /usr/src/vim
-
-    - name: install vim
-      # --prefix: インストール先
-      shell: "{{ item }}"
-      args:
-        chdir: /usr/src/vim
-      with_items:
-        - make distclean
-        - ./configure --prefix=/usr/local --enable-multibyte --with-features=huge --disable-selinux --enable-pythoninterp=yes --enable-luainterp=yes 
-        - make
-        - make install
-      when: is_vim_installed|failed
-    - shell: /usr/local/bin/vim --version
-      register: vim_version
-      changed_when: False
-    - debug: var=vim_version.stdout_lines[0]
 
