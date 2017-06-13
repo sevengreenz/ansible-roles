@@ -6,7 +6,7 @@
 Vagrant.configure("2") do |config|
 
   config.vm.box = "centos7.2"
-  config.vm.network "private_network", ip: "192.168.33.20"
+  config.vm.network "private_network", ip: "192.168.33.70"
 
   config.vm.define :simple do |simple|
     simple.vm.hostname = 'simple'
