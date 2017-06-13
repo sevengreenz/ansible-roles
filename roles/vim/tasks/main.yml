@@ -2,7 +2,7 @@
 
 - name: is vim installed 
   stat:
-    path: /user/local/bin/vim
+    path: /usr/local/bin/vim
   register: vim
 
 # vim の依存パッケージインストール
