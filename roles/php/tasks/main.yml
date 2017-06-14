@@ -21,3 +21,18 @@
     - php-mbstring
     - php-pdo
     - php-gd
+
+- name: is composer installed 
+  stat:
+    path: /usr/bin/composer
+  register: composer
+
+- name: install composer
+  shell: "{{ item  }}" 
+  args:
+    chdir: /usr/bin
+  with_items:
+    - curl -sS https://getcomposer.org/installer | php
+    - mv composer.phar composer
+  when: not composer.stat.exists
+
