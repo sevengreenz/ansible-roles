@@ -1,0 +1,9 @@
+- name: add repository
+  yum:
+    name: https://rpm.nodesource.com/pub_8.x/el/7/x86_64/nodejs-8.1.1-1nodesource.el7.centos.x86_64.rpm
+    state: present
+
+- name: install node
+  yum:
+    name: nodejs
+    state: present
