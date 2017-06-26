@@ -1,0 +1,4 @@
+- name: install serverless
+  npm:
+    name: serverless
+    global: yes

@@ -7,3 +7,8 @@
   yum:
     name: nodejs
     state: present
+
+- name: install yarn
+  npm:
+    name: yarn
+    global: yes
