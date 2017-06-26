@@ -1,0 +1,4 @@
+- name: install vue-cli
+  npm:
+    name: vue-cli
+    global: yes
