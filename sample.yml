@@ -1,4 +1,4 @@
-- hosts: simple
+- hosts: sample
   become: yes
   roles:
     - { role: git, dir: ansible-roles/git }
