@@ -1,12 +1,12 @@
 - hosts: simple
   become: yes
   roles:
-    - git
-    - vim
-    - php
-    - node
-    - serverless 
-    - vue 
+    - { role: git, dir: ansible-roles/git }
+    - { role: vim, dir: ansible-roles/vim }
+    - { role: php, dir: ansible-roles/php }
+    - { role: node, dir: ansible-roles/node }
+    - { role: serverless, dir: ansible-roles/serverless }
+    - { role: vue , dir: ansible-roles/vue }
 
 
 
