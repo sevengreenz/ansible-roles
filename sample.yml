@@ -1,6 +1,7 @@
 - hosts: sample
   become: yes
   roles:
+    - { role: elasticsearch, dir: ansible-roles/elasticsearch }
     - { role: git, dir: ansible-roles/git }
     - { role: vim, dir: ansible-roles/vim }
     - { role: php, dir: ansible-roles/php }
