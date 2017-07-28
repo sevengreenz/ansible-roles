@@ -1,0 +1,10 @@
+# Java 1.8 をインストール
+- name: install jdk
+  yum:
+    name: java-1.8.0-openjdk 
+    state: present
+
+- shell: java -version
+  register: result
+  changed_when: False
+- debug: var=result.stdout

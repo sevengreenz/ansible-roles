@@ -1,0 +1,30 @@
+# Elasticsearch 5.5 をインストール
+
+- name: set elasticsearch.repo
+  template:
+    src: elasticsearch.repo.j2  
+    dest: /etc/yum.repos.d/elasticsearch.repo
+    owner: root
+    group: root
+    mode: 0600
+
+- name: install Elasticsearch
+  yum:
+    name: elasticsearch
+
+- name: install Elasticsearch  plugin
+  elasticsearch_plugin:
+    plugin_bin: /usr/share/elasticsearch/bin/elasticsearch-plugin
+    timeout: null
+    name: "{{ item }}" 
+    state: present
+  with_items:
+    - analysis-kuromoji
+    - analysis-icu
+
+- name: start elasticsearch
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes
+
